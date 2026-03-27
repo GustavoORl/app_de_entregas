@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model delivery {
+  id        String          @id
+  status    delivery_status @default(PENDING)
+  address   String
+  latitude  Float
+  longitude Float
+  createdAt DateTime        @default(now())
+  orderId   String          @unique(map: "Delivery_orderId_key")
+  userId    String?
+  order     order           @relation(fields: [orderId], references: [id], map: "Delivery_orderId_fkey")
+  user      user?           @relation(fields: [userId], references: [id], map: "Delivery_userId_fkey")
+
+  @@index([userId], map: "Delivery_userId_fkey")
+}
+
+model order {
+  id        String       @id
+  status    order_status @default(PENDING)
+  createdAt DateTime     @default(now())
+  delivery  delivery?
+  orderitem orderitem[]
+}
+
+model orderitem {
+  id        String  @id
+  quantity  Int
+  price     Float
+  orderId   String
+  productId String
+  order     order   @relation(fields: [orderId], references: [id], map: "OrderItem_orderId_fkey")
+  product   product @relation(fields: [productId], references: [id], map: "OrderItem_productId_fkey")
+
+  @@index([orderId], map: "OrderItem_orderId_fkey")
+  @@index([productId], map: "OrderItem_productId_fkey")
+}
+
+model product {
+  id            String          @id
+  name          String
+  description   String?
+  price         Float
+  quantity      Int             @default(0)
+  createdAt     DateTime        @default(now())
+  orderitem     orderitem[]
+  stockmovement stockmovement[]
+}
+
+model stockmovement {
+  id        String             @id
+  type      stockmovement_type
+  quantity  Int
+  createdAt DateTime           @default(now())
+  productId String
+  product   product            @relation(fields: [productId], references: [id], map: "StockMovement_productId_fkey")
+
+  @@index([productId], map: "StockMovement_productId_fkey")
+}
+
+model user {
+  id        String     @id
+  name      String
+  email     String     @unique(map: "User_email_key")
+  password  String
+  role      user_role  @default(USER)
+  createdAt DateTime   @default(now())
+  delivery  delivery[]
+}
+
+enum delivery_status {
+  PENDING
+  IN_ROUTE
+  DELIVERED
+}
+
+enum order_status {
+  PENDING
+  CONFIRMED
+  CANCELED
+}
+
+enum stockmovement_type {
+  ENTRY
+  EXIT
+}
+
+enum user_role {
+  ADMIN
+  USER
+}
