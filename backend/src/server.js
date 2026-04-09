@@ -1,4 +1,5 @@
 import express from "express";
+import authRouter from "./routers/authRouter.js"
 import userRouter from "./routers/userRouter.js"
 import productRouter from "./routers/productRouter.js"
 
@@ -11,6 +12,7 @@ app.get('/', (req, res)=>{
     res.json("Hello Word!")
 })
 
+app.use('/auth', authRouter)
 app.use('/user', userRouter);
 app.use('/product', productRouter);
 

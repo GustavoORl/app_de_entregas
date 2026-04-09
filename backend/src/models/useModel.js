@@ -10,6 +10,12 @@ export const getUsers = async (id) => {
     return await prisma.user.findMany(id);
 }
 
+export const getUser = async (id) => {
+    return await prisma.user.findMany({
+        select: { id: true}
+    });
+}
+
 export const updateUser = async (user, id) => {
     return await prisma.user.update({
         data: user,
@@ -25,6 +31,12 @@ export const deleteUser = async (id) => {
 
 export const getProducts = async (id) => {
     return await prisma.product.findMany(id);
+}
+
+export const getProduct = async(id) => {
+    return await prisma.product.findMany({
+        select: { id: true}
+    });
 }
 
 export const createProduct = async (product) => {
