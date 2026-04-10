@@ -2,9 +2,11 @@ import jwt from "jsonwebtoken";
 
 export default function authMiddleware(req, res, next){
     
-    const token = req.header('authorization-token');
-    if (!token) 
+    const authHeader = req.headers.authorization;
+    if (!authHeader) 
         return res.status(401).send("Acesso Negado!");
+
+    const token = authHeader.split(" ")[1];
 
     try {
         const userVeriffied = jwt.verify(token, process.env.TOKEN_SECRET);

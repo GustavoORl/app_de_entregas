@@ -1,8 +1,29 @@
 import Button from "../../components/ui/Button";
 import AuthLayout from "../../layouts/AuthLayout";
 import LabelInput from "../../components/ui/Label_input";
+import { useState } from "react";
+import { login } from "../../services/authService";
+
 
 export default function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    async function handleSubmit(e){
+        e.preventDefault();
+
+        try{
+            const data = await login({email, password});
+
+            localStorage.setItem("token", data.token);
+
+            console.log("Login Sucesso:", data);
+        } catch (error) {
+        console.error(error);
+        alert("Erro ao fazer login!");
+    }
+    } 
+
   return (
     <AuthLayout>
       <div className="h-[80vh] w-[70vw] flex">
@@ -47,12 +68,14 @@ export default function Login() {
             </div>
 
             {/* FORM */}
-            <form className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <LabelInput
                 label="E-mail"
                 id="login_email"
                 type="email"
                 placeholder="seu@email.com"
+                value={email}
+                onChange={(e)=> setEmail(e.target.value)}
               />
 
               <div>
@@ -69,10 +92,12 @@ export default function Login() {
                   id="login_senha"
                   type="password"
                   placeholder="********"
+                  value={password}
+                  onChange={(e)=> setPassword(e.target.value)}
                 />
               </div>
 
-              <Button>Entrar</Button>
+              <Button type="submit">Entrar</Button>
             </form>
 
             {/* DIVISOR */}
