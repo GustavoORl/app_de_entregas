@@ -34,8 +34,16 @@ const authController = {
             },
         });
 
+        //GERAR TOKEN
+            const token = jwt.sign(
+            { userId: user.id},
+            process.env.TOKEN_SECRET,
+            { expiresIn: "1d" }
+            );
+
         return res.status(201).json({
             message: "Usuário criado com sucesso!",
+            token,
         user: {
             id: user.id,
             name: user.name,

@@ -2,11 +2,12 @@ import Button from "../../components/ui/Button";
 import AuthLayout from "../../layouts/AuthLayout";
 import LabelInput from "../../components/ui/Label_input";
 import { useState } from "react";
-import { login } from "../../services/authService";
+import { register } from "../../services/authService";
 import { useNavigate, Link } from "react-router-dom";
 
 
-export default function Login() {
+export default function Register() {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -16,15 +17,15 @@ export default function Login() {
         e.preventDefault();
 
         try{
-            const data = await login({email, password});
+            const data = await register({name, email, password});
 
             localStorage.setItem("token", data.token);
-
+            
             navigate("/home");
 
         } catch (error) {
         console.error(error);
-        alert("Erro ao fazer login!");
+        alert("Erro ao fazer cadastro!");
     }
     } 
 
@@ -35,7 +36,7 @@ export default function Login() {
         {/* LADO ESQUERDO (IMAGEM) */}
         <div className="hidden lg:flex lg:w-1/2 relative">
           <img
-            src="../src/images/ovelha.jpg"// coloca sua imagem aqui
+            src="../src/images/gato.jpg"// coloca sua imagem aqui
             alt="background"
             className="w-full h-full object-fit-cover"
           />
@@ -65,14 +66,24 @@ export default function Login() {
 
             {/* HEADER */}
             <div className="mb-8 text-center">
-              <h2 className="text-2xl font-bold">Bem-vindo de volta</h2>
+              <h2 className="text-2xl font-bold">Cadastre-se</h2>
               <p className="text-gray-500 text-sm">
-                Insira seus dados para acessar sua conta
+                Crie sua conta gratuitamente
               </p>
             </div>
 
             {/* FORM */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            
+              <LabelInput
+                label="Nome"
+                id="register_name"
+                type="text"
+                placeholder="Nome completo"
+                value={name}
+                onChange={(e)=> setName(e.target.value)}
+                />
+
               <LabelInput
                 label="E-mail"
                 id="login_email"
@@ -87,9 +98,7 @@ export default function Login() {
                   <span className="text-sm font-semibold text-gray-700">
                     Senha
                   </span>
-                  <a href="#" className="text-sm text-gray-900 font-semibold">
-                    Esqueceu a senha?
-                  </a>
+
                 </div>
 
                 <LabelInput
@@ -101,7 +110,7 @@ export default function Login() {
                 />
               </div>
 
-              <Button type="submit">Entrar</Button>
+              <Button type="submit">Cadastrar</Button>
             </form>
 
             {/* DIVISOR */}
@@ -126,9 +135,9 @@ export default function Login() {
 
             {/* FOOTER */}
             <p className="text-center text-sm text-gray-500 mt-6">
-              Não tem uma conta?{" "}
+              Já tem uma conta?{" "}
               <span className="font-semibold text-gray-700 cursor-pointer">
-                <Link to="/register">Cadastre-se</Link>
+                <Link to="/login">Login</Link>
               </span>
             </p>
 
