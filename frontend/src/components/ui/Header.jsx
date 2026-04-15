@@ -1,8 +1,22 @@
 import Image from "../../images/logo_colorido.png"
 import { BiBell, BiCart, BiUser } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import getMe from "../../services/userService";
 
 export default function Header() {
+
+    const [user, setUser] = useState(null);
+
+    useEffect(()=>{
+        async function fetchUser(){
+            const data = await getMe();
+            setUser(data);
+        }
+
+        fetchUser();
+    }, []);
+
     return (
         <>
             <header className="w-screen min-h-[10vh] bg-white">
@@ -31,7 +45,7 @@ export default function Header() {
                             </div>
                             <div className="flex items-center gap-4 pl-8 border-l-1">
                                 <div className="leading-none text-end">
-                                    <h1>Gustavo Ribeiro</h1>
+                                    <h1>{user ? `Olá, ${user.name}` : "Carregando..."}</h1>
                                     <h6 className="text-gray-600 text-sm">Administrador</h6>
                                 </div>
                                 <div className="rounded-full border-1 border-black">
