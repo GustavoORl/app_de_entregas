@@ -20,8 +20,14 @@ export default function Login() {
 
             localStorage.setItem("token", data.token);
 
-            navigate("/home");
+            localStorage.setItem("user", JSON.stringify(data.user));
 
+            if(data.user.role == "ADMIN"){
+              navigate("/admin");
+            } else {
+              navigate("/home");
+            }
+    
         } catch (error) {
         console.error(error);
         alert("Erro ao fazer login!");

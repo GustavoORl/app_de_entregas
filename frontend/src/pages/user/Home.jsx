@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react"
-import getMe from "../services/userService.jsx";
+import getMe from "../../services/userService.jsx";
 
-import CardStatics from "../components/ui/Card_Statics.jsx";
+import CardStatics from "../../components/ui/Card_Statics.jsx";
 import { BiCart, BiWallet } from "react-icons/bi";
 import { TbTruckDelivery } from "react-icons/tb";
 import { FiShoppingBag } from "react-icons/fi";
 
-import OrderDetails from "../components/OrderDetails.jsx";
-import OrdersList from "../components/OrderList.jsx";
+import OrderDetails from "../../components/OrderDetails.jsx";
+import OrdersList from "../../components/OrderList.jsx";
 
 export default function Home() {
 

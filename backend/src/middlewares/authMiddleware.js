@@ -9,8 +9,9 @@ export default function authMiddleware(req, res, next){
     const token = authHeader.split(" ")[1];
 
     try {
-        const userVeriffied = jwt.verify(token, process.env.TOKEN_SECRET);
-        req.userId = userVeriffied.userId;
+        const userVerified = jwt.verify(token, process.env.TOKEN_SECRET);
+        req.userId = userVerified.userId;
+        req.userRole = userVerified.role;
         next();
     } catch (error) {
         res.status(401).send("Acesso Negado!");

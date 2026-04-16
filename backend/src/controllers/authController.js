@@ -37,7 +37,7 @@ const authController = {
 
         //GERAR TOKEN
             const token = jwt.sign(
-            { userId: user.id},
+            { userId: user.id, role: user.role},
             process.env.TOKEN_SECRET,
             { expiresIn: "1d" }
             );
@@ -85,7 +85,7 @@ const authController = {
 
             //GERAR TOKEN
             const token = jwt.sign(
-            { userId: user.id},
+            { userId: user.id, role: user.role},
             process.env.TOKEN_SECRET,
             { expiresIn: "1d" }
             );
@@ -98,6 +98,7 @@ const authController = {
                     name: user.name,
                     lastname: user.lastname,
                     email: user.email,
+                    role: user.role,
                 },
             });
 

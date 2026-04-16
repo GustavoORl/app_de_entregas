@@ -3,6 +3,7 @@ import "/src/App.css";
 
 import userRoutes from "./routes/userRoute.jsx";
 import authRoutes from "./routes/authRoute.jsx";
+import adminRoutes from "./routes/adminRoutes.jsx";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <Routes>
         {authRoutes}
         {userRoutes}
-
+        {adminRoutes}
       </Routes>
     </BrowserRouter>
   );

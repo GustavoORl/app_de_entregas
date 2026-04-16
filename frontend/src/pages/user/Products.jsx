@@ -1,4 +1,4 @@
-import Header from "../components/ui/Header.jsx"
+import Header from "../../components/ui/Header.jsx"
 
 export default function Products(){
     return(
