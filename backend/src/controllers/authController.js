@@ -6,10 +6,10 @@ const authController = {
     // REGISTRO
     async register(req, res){
         try{
-            const { name, email, password } = req.body;
+            const { name, email, lastname, password } = req.body;
 
         // VALIDAÇÃO
-        if (!name || !email || !password){
+        if (!name || !email || !password || !lastname){
             return res.status(400).json({error: "Campos obrigatórios!"});
         }
 
@@ -28,7 +28,8 @@ const authController = {
         //CRIAR USUÁRIO
         const user = await prisma.user.create({
             data: {
-                name, 
+                name,
+                lastname, 
                 email,
                 password: hashedPassword,
             },
@@ -47,6 +48,7 @@ const authController = {
         user: {
             id: user.id,
             name: user.name,
+            lastname: user.lastname,
             email: user.email,
         },
         });
@@ -94,6 +96,7 @@ const authController = {
                 user: {
                     id: user.id,
                     name: user.name,
+                    lastname: user.lastname,
                     email: user.email,
                 },
             });
@@ -111,6 +114,7 @@ const authController = {
                 select: {
                     id: true,
                     name: true,
+                    lastname: true,
                     email: true,
                     role: true,
                 },

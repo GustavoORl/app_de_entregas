@@ -8,6 +8,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 export default function Register() {
     const [name, setName] = useState("");
+    const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -17,7 +18,7 @@ export default function Register() {
         e.preventDefault();
 
         try{
-            const data = await register({name, email, password});
+            const data = await register({name, lastname, email, password});
 
             localStorage.setItem("token", data.token);
             
@@ -74,16 +75,26 @@ export default function Register() {
 
             {/* FORM */}
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            
+
+              <div className="flex gap-4">
               <LabelInput
                 label="Nome"
                 id="register_name"
                 type="text"
-                placeholder="Nome completo"
+                placeholder="Nome"
                 value={name}
                 onChange={(e)=> setName(e.target.value)}
                 />
 
+                <LabelInput
+                label="Sobrenome"
+                id="register_lastname"
+                type="text"
+                placeholder="Sobrenome"
+                value={lastname}
+                onChange={(e)=> setLastname(e.target.value)}
+                />
+              </div>
               <LabelInput
                 label="E-mail"
                 id="login_email"
