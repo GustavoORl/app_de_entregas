@@ -41,7 +41,7 @@ export default function CardTop({
                     
                     <button onClick={onClickC}>
                     {IconC && (
-                        <div className="flex items-center justify-evenly gap-2 bg-white py-2 px-3 rounded-lg text-[#920602] border border-[#FBDCDB] hover:bg-[#920602] hover:text-white">
+                        <div className="cursor-pointer flex items-center justify-evenly gap-2 bg-white py-2 px-3 rounded-lg text-[#920602] border border-[#FBDCDB] hover:bg-[#920602] hover:text-white">
                             <IconC size={20} />
                             <h1 className="text-nowrap">{descC}</h1>
                         </div>

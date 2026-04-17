@@ -29,7 +29,7 @@ export default function AdminDashboard(){
                 descC={"Novo produto"}
                 onClickC={onClickC}/>
 
-                {showForm && <Form></Form>}
+                {showForm && <Form onClose={()=> setShowForm(false)}/>}
             </div>
 
             

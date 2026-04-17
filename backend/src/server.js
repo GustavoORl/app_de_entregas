@@ -1,6 +1,5 @@
 import express from "express";
 import authRouter from "./routers/authRouter.js"
-import userRouter from "./routers/userRouter.js"
 import productRouter from "./routers/productRouter.js"
 import cors from "cors";
 
@@ -19,8 +18,8 @@ app.get('/', (req, res)=>{
 })
 
 app.use('/auth', authRouter)
-app.use('/user', userRouter);
 app.use('/product', productRouter);
+app.use('/uploads', express.static("src/uploads"));
 
 app.listen(PORT, ()=>{
     console.log(`Server rodando na porta ${PORT}`);
