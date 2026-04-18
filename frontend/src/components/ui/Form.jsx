@@ -25,6 +25,11 @@ export default function Form({onClose}) {
       await api.post("/product", formData);
 
       alert("Produto criado com sucesso!");
+      setName("");
+      setDescription("");
+      setPrice("");
+      setQuantity("");
+      setImage("");
 
     } catch (error) {
       console.error(error);

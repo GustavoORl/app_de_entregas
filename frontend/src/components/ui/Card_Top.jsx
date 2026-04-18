@@ -5,6 +5,7 @@ export default function CardTop({
     subtitle,
     place,
     iconA: IconA,
+    descA,
     iconB: IconB,
     descB,
     iconC: IconC,
@@ -28,6 +29,7 @@ export default function CardTop({
                     {IconA && (
                         <div className="flex items-center justify-center bg-[#FBDCDB] p-2 rounded-lg">
                             <IconA size={20} />
+                            <h1>{descA}</h1>
                         </div>
                     )}
 

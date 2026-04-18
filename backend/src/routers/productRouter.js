@@ -6,6 +6,7 @@ import { upload } from "../middlewares/upload.js";
 
 const router = Router();
 
+router.get("/", authMiddleware, roleMiddleware("ADMIN"), productController.getAll);
 router.post("/", authMiddleware, roleMiddleware("ADMIN"), upload.single("image"), productController.create);
 router.put("/:id", authMiddleware, roleMiddleware("ADMIN"), upload.single("image"), productController.update);
 router.delete("/:id", authMiddleware, roleMiddleware("ADMIN"), productController.delete);
