@@ -1,14 +1,23 @@
 import LabelInput from "./Label_input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../services/api";
 import { RxCross2 } from "react-icons/rx";
 
-export default function Form({onClose}) {
+export default function Form({ onClose, product }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    if (product) {
+      setName(product.name || "");
+      setDescription(product.description || "");
+      setPrice(product.price || "");
+      setQuantity(product.quantity || "");
+    }
+  }, [product]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -20,58 +29,62 @@ export default function Form({onClose}) {
       formData.append("description", description);
       formData.append("price", price);
       formData.append("quantity", quantity);
-      formData.append("image", image);
 
-      await api.post("/product", formData);
+      if (image) {
+        formData.append("image", image);
+      }
 
-      alert("Produto criado com sucesso!");
-      setName("");
-      setDescription("");
-      setPrice("");
-      setQuantity("");
-      setImage("");
+      if (product) {
+        await api.put(`/product/${product.id}`, formData);
+        alert("Produto atualizado com sucesso!");
+      } else {
+        await api.post("/product", formData);
+        alert("Produto criado com sucesso!");
+      }
+
+      onClose();
+      window.location.reload(); // 🔥 simples e funciona sempre
 
     } catch (error) {
       console.error(error);
-      alert("Erro ao cadastrar produto");
+      alert("Erro ao salvar produto");
     }
   }
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col w-[60vh] bg-white p-6 rounded-lg shadow-lg border border-[#0000001f]">
-        <div className="flex justify-between">
-        <h1 className="text-lg font-semibold mb-4">Cadastro de Produto</h1>
-        <RxCross2 onClick={onClose} size={20} className="cursor-pointer"/>
+    <div className="fixed inset-0 flex justify-center items-center bg-black/40">
+      <div className="flex flex-col w-[60vh] bg-white p-6 rounded-lg shadow-lg">
+
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-lg font-semibold">
+            {product ? "Editar Produto" : "Cadastro de Produto"}
+          </h1>
+          <RxCross2 onClick={onClose} size={20} className="cursor-pointer" />
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
 
           <LabelInput
-            label="Nome do produto"
-            id="name_form_product"
+            label="Nome"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
           <LabelInput
             label="Descrição"
-            id="description_form_product"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
-          <LabelInput
-            label="Imagem"
-            id="image_form_product"
-            type="file"
-            onChange={(e)=>setImage(e.target.files[0])}
-            preview={image ? URL.createObjectURL(image) : null}
-            />
+          <LabelInput 
+          label="Imagem" 
+          id="image_form_product" 
+          type="file" 
+          onChange={(e) => setImage(e.target.files[0])} 
+          preview={image ? URL.createObjectURL(image) : null} />
 
           <LabelInput
-            label="Preço do produto"
-            id="price_form_product"
+            label="Preço"
             type="number"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
@@ -79,7 +92,6 @@ export default function Form({onClose}) {
 
           <LabelInput
             label="Quantidade"
-            id="quantity_form_product"
             type="number"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
@@ -89,8 +101,9 @@ export default function Form({onClose}) {
             type="submit"
             className="p-3 border border-[#FBDCDB] text-[#920602] hover:bg-[#920602] hover:text-white"
           >
-            Cadastrar
+            {product ? "Atualizar" : "Cadastrar"}
           </button>
+
         </form>
       </div>
     </div>
